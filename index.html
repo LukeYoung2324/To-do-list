@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>To Do List</title>
+</head>
+
+<body>
+    <h1>To Do list</h1>
+    <input id="todo-text"></input>
+    <button id="todo-add">Add</button>
+    <div id="todo-item"></div>
+    <script>
+
+        // this is to keep the list when loaded
+        listData()
+        // this if for getting the display div for the .forEach loop
+        //    const forList = document.getElementById("todo-item");
+
+        const todo = document.getElementById("todo-text");
+        const tasks = document.getElementById("todo-item");
+        const todoItem = todo.value;
+        const button = document.getElementById("todo-add");
+
+        button.addEventListener("click", event => {
+            addTodo();
+            
+        });
+        // this is to put oldData into globle scope (for lines 59 and 44)
+        let oldData = JSON.parse(localStorage.getItem("data"));
+
+
+        function addTodo() {
+            // will get the input
+            let inputField = document.getElementById("todo-text");
+            let newData = document.getElementById("todo-text").value;
+            const valueOfInputField = inputField.value;
+            let checkLocalStorage = JSON.parse(localStorage.getItem("data")) || [];
+
+            if (checkLocalStorage.includes(newData)) {
+                 alert("todo already in todo");
+                 return;
+            } else {
+               
+               
+               
+                if (localStorage.getItem("data") == null && newData.value !== "") {
+                    localStorage.setItem("data", "[]");
+                }
+
+                // will get old data and put it in new data
+                let oldData = JSON.parse(localStorage.getItem("data"));
+                oldData.push(newData);
+
+                let finData = localStorage.setItem("data", JSON.stringify(oldData));
+
+                clearedDiv = document.getElementById("todo-item").innerHTML = " ";
+
+                listData();
+            };
+
+
+        };
+
+        function listData() {
+
+            if (localStorage.getItem("data") != null) {
+                let oldData = JSON.parse(localStorage.getItem("data"));
+
+                oldData.forEach(function (item,) {
+                    // creates the todo
+
+                    const forList = document.getElementById("todo-item");
+                    const newDiv = document.createElement("div");
+                    newDiv.textContent = item;
+
+                    // creates the rmove button
+                    const removeData = document.createElement("button");
+                    removeData.textContent = " Remove";
+
+                    newDiv.appendChild(removeData);
+                    forList.appendChild(newDiv);
+
+                    removeData.addEventListener("click", function () {
+                        // click remove
+                        forList.removeChild(newDiv);
+
+                        //  set local storage with the new array
+
+                        const indexToRemove = oldData.indexOf(item);
+
+                        oldData.splice(indexToRemove, 1); // remove 1 item at the index
+                        localStorage.setItem("data", JSON.stringify(oldData)); // updates local storage
+
+                    });
+
+                });
+            };
+        };
+    </script>
+</body>
