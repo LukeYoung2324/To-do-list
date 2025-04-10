@@ -4,13 +4,26 @@
 <head>
     <meta charset="UTF-8">
     <title>To Do List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+
 </head>
 
-<body>
-    <h1>To Do list</h1>
-    <input id="todo-text"></input>
-    <button id="todo-add">Add</button>
-    <div id="todo-item"></div>
+<body class="bg-secondary">
+    <div class="d-flex justify-content-center">
+        <h1 class="text-black">To Do list</h1>
+
+    </div>
+
+    <div class="d-flex justify-content-center p-10">
+        <input id="todo-text" placeholder="Add a todo here!"></input>
+        <button id="todo-add" class="btn btn-outline-info shadow-lg" type="button">Add</button> 
+    </div>
+
+    <div class="d-flex justify-content-center">
+        <div id="todo-item" class="m-10px"></div>
+    </div>
+ 
     <script>
 
         // this is to keep the list when loaded
@@ -25,7 +38,7 @@
 
         button.addEventListener("click", event => {
             addTodo();
-            
+
         });
         // this is to put oldData into globle scope (for lines 59 and 44)
         let oldData = JSON.parse(localStorage.getItem("data"));
@@ -39,12 +52,12 @@
             let checkLocalStorage = JSON.parse(localStorage.getItem("data")) || [];
 
             if (checkLocalStorage.includes(newData)) {
-                 alert("todo already in todo");
-                 return;
+                alert("todo already in todo");
+                return;
             } else {
-               
-               
-               
+
+
+
                 if (localStorage.getItem("data") == null && newData.value !== "") {
                     localStorage.setItem("data", "[]");
                 }
@@ -74,10 +87,22 @@
                     const forList = document.getElementById("todo-item");
                     const newDiv = document.createElement("div");
                     newDiv.textContent = item;
+                    // makes items flex
+                    newDiv.classList.add("d-flex");
+                    newDiv.classList.add("justify-content-space-between");
+                    newDiv.classList.add("text-black");
+                    
 
                     // creates the rmove button
                     const removeData = document.createElement("button");
                     removeData.textContent = " Remove";
+                    removeData.classList.add("btn-outline-danger");
+                    removeData.classList.add("btn");
+                    removeData.classList.add("shadow-lg");
+                    
+                    
+                    // removeData.classList.add("flex-1");
+                    
 
                     newDiv.appendChild(removeData);
                     forList.appendChild(newDiv);
